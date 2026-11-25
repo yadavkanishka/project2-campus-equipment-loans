@@ -21,8 +21,6 @@ try {
     // Execute the SQL and create all six tables.
     db.exec(schema);
 
-    console.log("Starting equipment entries added successfully!");
-
     // Enable the API endpoints by default.
     db.prepare(`
         INSERT INTO app_settings (setting_key, is_enabled)
