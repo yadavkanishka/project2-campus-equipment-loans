@@ -1,4 +1,4 @@
-
+import { getActiveEquipment } from "@/lib/equipment";
 import Link from "next/link";
 
 // Equipment card information.
@@ -34,7 +34,8 @@ function EquipmentCard({
 }
 
 // Homepage.
-export default function Home() {
+export default async function Home() {
+  const equipment = await getActiveEquipment();
   return (
     <main className="min-h-screen bg-slate-50 text-slate-900">
       {/* Navigation */}
@@ -229,62 +230,20 @@ export default function Home() {
         </div>
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          <EquipmentCard
-            icon="📽️"
-            name="HDMI Projector"
-            category="Presentation"
-            description="Projection equipment for classroom presentations and campus events."
-          />
-
-          <EquipmentCard
-            icon="🎤"
-            name="Wireless Microphones"
-            category="Audio"
-            description="Wireless audio equipment for lectures, meetings, and events."
-          />
-
-          <EquipmentCard
-            icon="📷"
-            name="Tripod + DSLR Camera"
-            category="Photography"
-            description="Camera equipment for campus photography and recording activities."
-          />
-
-          <EquipmentCard
-            icon="💻"
-            name="Laptop Cart"
-            category="Computing"
-            description="Laptop equipment for classroom activities and group learning."
-          />
-
-          <EquipmentCard
-            icon="🔊"
-            name="Portable PA Speaker"
-            category="Audio"
-            description="Portable sound equipment for presentations and campus gatherings."
-          />
-
-          <EquipmentCard
-            icon="📡"
-            name="Zoom Conference Kit"
-            category="Conference"
-            description="Conference equipment for online and hybrid meetings."
-          />
-
-          <EquipmentCard
-            icon="📋"
-            name="Whiteboard on Wheels"
-            category="Classroom"
-            description="Mobile whiteboard for teaching, brainstorming, and collaboration."
-          />
-
-          <EquipmentCard
-            icon="🔌"
-            name="Extension Cords"
-            category="Accessories"
-            description="Power accessories for classroom and event equipment setups."
-          />
-        </div>
+          {equipment.map((item) => (
+            <EquipmentCard
+              key={item.id}
+              icon="📦"
+              name={item.name}
+              category={item.category}
+              description={
+                item.total_quantity === null
+                  ? "Contact the equipment coordinator for availability."
+                  : `${item.total_quantity} units recorded in the equipment inventory.`
+              }
+            />
+          ))}
+        </div>      
       </section>
 
       {/* How it works */}
